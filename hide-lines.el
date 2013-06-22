@@ -5,7 +5,6 @@
 ;; Author: Mark Hulme-Jones <ture at plig cucumber dot net>
 ;; Maintainer: Joe Bloggs <vapniks@yahoo.com>
 ;; Copyleft (Ↄ) 2013, Joe Bloggs, all rites reversed.
-;; Created: 2013-06-22 22:38:04
 ;; Version: 20130622
 ;; Last-Updated: 2013-06-22 22:38:04
 ;;           By: Joe Bloggs
@@ -60,7 +59,8 @@
 ;; Below are complete command list:
 ;;
 ;;  `hide-lines'
-;;    Hide lines matching the specified regexp.
+;;    Call `hide-lines-matching'. With a prefix arg of 4 (C-u) call `hide-lines-not-matching'.
+;;    With any other prefix call `hide-lines-show-all'.
 ;;  `hide-lines-not-matching'
 ;;    Hide lines that don't match the specified regexp.
 ;;  `hide-lines-matching'
@@ -113,7 +113,8 @@
 ;;;###autoload
 (defun hide-lines (&optional arg)
   "Hide lines matching the specified regexp.
-With prefix arg: Hide lines that do not match the specified regexp"
+With prefix arg of 4 (C-u) hide lines that do not match the specified regexp.
+With any other prefix arg, reveal all hidden lines."
   (interactive "p")
   (cond ((= arg 4) (call-interactively 'hide-lines-not-matching))
         ((= arg 1) (call-interactively 'hide-lines-matching))
@@ -166,7 +167,7 @@ overlay onto the hide-lines-invisible-areas list"
 
 ;;;###autoload
 (defun hide-lines-show-all ()
-  "Show all areas hidden by the filter-buffer command"
+  "Show all areas hidden by the filter-buffer command."
   (interactive)
   (mapc (lambda (overlay) (delete-overlay overlay)) 
         hide-lines-invisible-areas)
