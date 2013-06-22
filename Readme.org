@@ -1,0 +1,51 @@
+* Library Information
+ Readme.org --- Commands for hiding lines based on a regexp
+
+ - Filename :: [[file:hide-lines.el][hide-lines.el]]
+ - Description :: Commands for hiding lines based on a regexp
+ - Author :: Mark Hulme-Jones <ture at plig cucumber dot net>
+ - Maintainer :: Joe Bloggs <vapniks@yahoo.com>
+ - Version :: 20130622
+ - Last-Updated :: 2013-06-22 22:38:04
+ -           By :: Joe Bloggs
+ - URL :: https://github.com/vapniks/hide-lines
+ - Keywords :: convenience
+ - Compatibility :: GNU Emacs 24.3.1
+
+* Commentary
+
+The simplest way to make hide-lines work is to add the following
+lines to your .emacs file:
+
+(autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
+(global-set-key "\C-ch" 'hide-lines)
+
+Now, when you type C-c h, you will be prompted for a regexp
+(regular expression).  All lines matching this regexp will be
+hidden in the buffer.
+
+Alternatively, you can type C-u C-c h (ie. provide a prefix
+argument to the hide-lines command) to hide all lines that *do not*
+match the specified regexp.
+
+If you want to make all of the hidden areas re-appear again, type:
+M-x show-all-invisible
+Or you can bind show-all-invisible to a key and use that to show
+all the hidden areas again.
+
+** Commands
+
+Below is a complete command list:
+
+ - `hide-lines' : Call `hide-lines-matching'. With a prefix arg of 4 (C-u) call `hide-lines-not-matching'.
+   With any other prefix call `hide-lines-show-all'.
+ - `hide-lines-not-matching' : Hide lines that don't match the specified regexp.
+ - `hide-lines-matching' : Hide lines matching the specified regexp.
+ - `hide-lines-show-all' : Show all areas hidden by the filter-buffer command
+
+
+* Installation
+
+ - If you have [[http://www.marmalade-repo.org/][marmalade-repo.org]], this hide-lines is part of the emacs packages you can install.  Just type M-x package-install hide-lines marmalade 
+ - Otherwise download the library from here Lisp:hide-lines, and put it in a directory in the emacs load path, like ~/.emacs.d
+ - Add (require 'hide-lines) in your ~/.emacs file
