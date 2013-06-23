@@ -43,6 +43,10 @@ Below is a complete command list:
  - `hide-lines-matching' : Hide lines matching the specified regexp.
  - `hide-lines-show-all' : Show all areas hidden by the filter-buffer command
 
+** Options
+
+ - `hide-lines-reverse-prefix' : If non-nil then `hide-lines' will call `hide-lines-matching' by default, and `hide-lines-not-matching' with a single prefix.
+   Otherwise it's the other way round. In either case a prefix arg with any value apart from 1 or 4 will call `hide-lines-show-all'.
 
 * Installation
 
