@@ -5,7 +5,7 @@
  - Description :: Commands for hiding lines based on a regexp
  - Author :: Mark Hulme-Jones <ture at plig cucumber dot net>
  - Maintainer :: Joe Bloggs <vapniks@yahoo.com>
- - Version :: 20130622
+ - Version :: 20130623.1701
  - Last-Updated :: 2013-06-22 22:38:04
  -           By :: Joe Bloggs
  - URL :: https://github.com/vapniks/hide-lines
@@ -47,7 +47,7 @@ Below is a complete command list:
 
  - `hide-lines-reverse-prefix' : If non-nil then `hide-lines' will call `hide-lines-matching' by default, and `hide-lines-not-matching' with a single prefix.
    Otherwise it's the other way round. In either case a prefix arg with any value apart from 1 or 4 will call `hide-lines-show-all'.
-
+   This variable is buffer local so you can use different values for different buffers.
 * Installation
 
  - If you have [[http://www.marmalade-repo.org/][marmalade-repo.org]], this hide-lines is part of the emacs packages you can install.  Just type M-x package-install hide-lines marmalade 
