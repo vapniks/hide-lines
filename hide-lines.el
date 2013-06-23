@@ -123,6 +123,8 @@ In either case a prefix arg with any value apart from 1 or 4 will call `hide-lin
   :type 'boolean
   :group 'hide-lines)
 
+(make-variable-buffer-local 'hide-lines-reverse-prefix)
+
 (add-to-invisibility-spec 'hl)
 
 ;;;###autoload
