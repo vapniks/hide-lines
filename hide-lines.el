@@ -4,8 +4,8 @@
 ;; Description: Commands for hiding lines based on a regexp
 ;; Author: Mark Hulme-Jones <ture at plig cucumber dot net>
 ;; Maintainer: Joe Bloggs <vapniks@yahoo.com>
-;; Version: 20130623
-;; Last-Updated: 2013-06-23 01:19:00
+;; Version: 20130623.1642
+;; Last-Updated: 2013-06-23 16:42:00
 ;;           By: Joe Bloggs
 ;; URL: https://github.com/vapniks/hide-lines
 ;; Keywords: convenience
