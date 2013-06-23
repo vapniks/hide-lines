@@ -4,9 +4,8 @@
 ;; Description: Commands for hiding lines based on a regexp
 ;; Author: Mark Hulme-Jones <ture at plig cucumber dot net>
 ;; Maintainer: Joe Bloggs <vapniks@yahoo.com>
-;; Copyleft (Ↄ) 2013, Joe Bloggs, all rites reversed.
-;; Version: 20130622
-;; Last-Updated: 2013-06-22 22:38:04
+;; Version: 20130623
+;; Last-Updated: 2013-06-23 01:19:00
 ;;           By: Joe Bloggs
 ;; URL: https://github.com/vapniks/hide-lines
 ;; Keywords: convenience
@@ -59,15 +58,21 @@
 ;; Below are complete command list:
 ;;
 ;;  `hide-lines'
-;;    Call `hide-lines-matching'. With a prefix arg of 4 (C-u) call `hide-lines-not-matching'.
-;;    With any other prefix call `hide-lines-show-all'.
+;;    Hide lines matching the specified regexp.
 ;;  `hide-lines-not-matching'
 ;;    Hide lines that don't match the specified regexp.
 ;;  `hide-lines-matching'
 ;;    Hide lines matching the specified regexp.
 ;;  `hide-lines-show-all'
-;;    Show all areas hidden by the filter-buffer command
+;;    Show all areas hidden by the filter-buffer command.
 ;;
+;;; Customizable Options:
+;;
+;; Below are customizable option list:
+;;
+;;  `hide-lines-reverse-prefix'
+;;    If non-nil then `hide-lines' will call `hide-lines-matching' by default, and `hide-lines-not-matching' with a single prefix.
+;;    default = nil
 
 ;;; Installation:
 ;;
@@ -105,8 +110,18 @@
 
 ;;; Code:
 
+(defgroup hide-lines nil
+  "Commands for hiding lines based on a regexp.")
+
 (defvar hide-lines-invisible-areas ()
  "List of invisible overlays used by hidelines")
+
+(defcustom hide-lines-reverse-prefix nil
+  "If non-nil then `hide-lines' will call `hide-lines-matching' by default, and `hide-lines-not-matching' with a single prefix.
+Otherwise it's the other way round.
+In either case a prefix arg with any value apart from 1 or 4 will call `hide-lines-show-all'."
+  :type 'boolean
+  :group 'hide-lines)
 
 (add-to-invisibility-spec 'hl)
 
@@ -116,8 +131,12 @@
 With prefix arg of 4 (C-u) hide lines that do not match the specified regexp.
 With any other prefix arg, reveal all hidden lines."
   (interactive "p")
-  (cond ((= arg 4) (call-interactively 'hide-lines-not-matching))
-        ((= arg 1) (call-interactively 'hide-lines-matching))
+  (cond ((= arg 4) (call-interactively
+                    (if hide-lines-reverse-prefix 'hide-lines-matching
+                      'hide-lines-not-matching)))
+        ((= arg 1) (call-interactively
+                    (if hide-lines-reverse-prefix 'hide-lines-not-matching
+                      'hide-lines-matching)))
         (t (call-interactively 'hide-lines-show-all))))
 
 (defun hide-lines-add-overlay (start end)
