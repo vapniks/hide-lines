@@ -29,27 +29,48 @@ argument to the hide-lines command) to hide all lines that *do not*
 match the specified regexp.
 
 If you want to make all of the hidden areas re-appear again, type:
-M-x show-all-invisible
+M-x hide-lines-show-all
 Or you can bind show-all-invisible to a key and use that to show
 all the hidden areas again.
 
-** Commands
+If you prefer the opposite behaviour either use =hide-lines-not-matching=
+or set =hide-lines-reverse-prefix= to t.
 
-Below is a complete command list:
+=hide-lines= is useful in the *Messages* buffer or *Packages* buffer (M-x list-packages).
+In the *Packages* buffer the following regular expression can be used to 
+limit the display to all packages marked for installation/uninstallation
 
- - `hide-lines' : Call `hide-lines-matching'. With a prefix arg of 4 (C-u) call `hide-lines-not-matching'.
-   With any other prefix call `hide-lines-show-all'.
- - `hide-lines-not-matching' : Hide lines that don't match the specified regexp.
- - `hide-lines-matching' : Hide lines matching the specified regexp.
- - `hide-lines-show-all' : Show all areas hidden by the filter-buffer command
-
-** Options
-
- - `hide-lines-reverse-prefix' : If non-nil then `hide-lines' will call `hide-lines-matching' by default, and `hide-lines-not-matching' with a single prefix.
-   Otherwise it's the other way round. In either case a prefix arg with any value apart from 1 or 4 will call `hide-lines-show-all'.
-   This variable is buffer local so you can use different values for different buffers.
 * Installation
+Put hide-lines.el in a directory in your load-path, e.g. ~/.emacs.d/
+You can add a directory to your load-path with the following line in ~/.emacs
+(add-to-list 'load-path (expand-file-name "~/elisp"))
+where ~/elisp is the directory you want to add 
+(you don't need to do this for ~/.emacs.d - it's added by default).
 
- - If you have [[http://www.marmalade-repo.org/][marmalade-repo.org]], this hide-lines is part of the emacs packages you can install.  Just type M-x package-install hide-lines marmalade 
- - Otherwise download the library from here Lisp:hide-lines, and put it in a directory in the emacs load path, like ~/.emacs.d
- - Add (require 'hide-lines) in your ~/.emacs file
+Add the following to your ~/.emacs startup file.
+
+(require 'hide-lines)
+* Commands & keybindings
+
+ Below is a complete list of commands:
+
+   - *hide-lines* :
+    Hide lines matching the specified regexp.\\
+    Keybinding: =M-x hide-lines=
+   - *hide-lines-not-matching* :
+    Hide lines that don't match the specified regexp.\\
+    Keybinding: =M-x hide-lines-not-matching=
+   - *hide-lines-matching* :
+    Hide lines matching the specified regexp.\\
+    Keybinding: =M-x hide-lines-matching=
+   - *hide-lines-show-all* :
+    Show all areas hidden by the filter-buffer command.\\
+    Keybinding: =M-x hide-lines-show-all=
+
+* Customizable Options
+
+ Below is a list of customizable options:
+
+   - *hide-lines-reverse-prefix* :
+    If non-nil then  - *hide-lines* : will call  - *hide-lines-matching* : by default, and  - *hide-lines-not-matching* : with a single prefix.\\
+    default value: =nil=
