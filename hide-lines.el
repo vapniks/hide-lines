@@ -148,10 +148,12 @@ With any other prefix arg, reveal all hidden lines."
         (t (call-interactively 'hide-lines-show-all))))
 
 (defun hide-lines-add-overlay (start end)
-  "Add an overlay from `start' to `end' in the current buffer.  Push the
-overlay onto the hide-lines-invisible-areas list"
+  "Add an overlay from `START' to `END' in the current buffer.
+Push the overlay onto the `hide-lines-invisible-areas' list"
   (let ((overlay (make-overlay start end)))
     (setq hide-lines-invisible-areas (cons overlay hide-lines-invisible-areas))
+    (unless (member 'hl buffer-invisibility-spec)
+      (add-to-invisibility-spec 'hl))
     (overlay-put overlay 'invisible 'hl)))
 
 ;;;###autoload
@@ -198,7 +200,8 @@ overlay onto the hide-lines-invisible-areas list"
   (interactive)
   (mapc (lambda (overlay) (delete-overlay overlay)) 
         hide-lines-invisible-areas)
-  (setq hide-lines-invisible-areas ()))
+  (setq hide-lines-invisible-areas ())
+  (remove-from-invisibility-spec 'hl))
 
 (provide 'hide-lines)
 
