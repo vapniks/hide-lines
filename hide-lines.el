@@ -41,29 +41,19 @@
 ;; lines to your .emacs file:
 ;; 
 ;; (autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
-;; (global-set-key "\C-ch" 'hide-lines)
+;; (global-set-key (kbd "C-c /") 'hide-lines)
 ;; 
-;; Now, when you type C-c h, you will be prompted for a regexp
+;; Now, when you type C-c /, you will be prompted for a regexp
 ;; (regular expression).  All lines matching this regexp will be
 ;; hidden in the buffer.
-;; 
-;; Alternatively, you can type C-u C-c h (ie. provide a prefix
+;;
+;; Alternatively, you can type C-u C-c / (ie. provide a prefix
 ;; argument to the hide-lines command) to hide all lines that *do not*
-;; match the specified regexp.
+;; match the specified regexp. If you want to reveal previously hidden
+;; lines you can use any other prefix, e.g. C-u C-u C-c /
 ;; 
-;; If you want to make all of the hidden areas re-appear again, type:
-;; M-x hide-lines-show-all
-;; Or you can bind show-all-invisible to a key and use that to show
-;; all the hidden areas again.
-;; 
-;; If you prefer the opposite behaviour either use `hide-lines-not-matching'
-;; or set `hide-lines-reverse-prefix' to t.
-;; 
-;; `hide-lines' is useful in the *Messages* buffer or *Packages* buffer (M-x list-packages).
-;; In the *Packages* buffer the following regular expression can be used to 
-;; limit the display to all packages marked for installation/uninstallation
-;; 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 
 ;;; Commands:
 ;;
@@ -129,8 +119,8 @@
 (defgroup hide-lines nil
   "Commands for hiding lines based on a regexp.")
 
-(defvar hide-lines-invisible-areas ()
- "List of invisible overlays used by hidelines")
+(defvar-local hide-lines-invisible-areas ()
+  "List of invisible overlays used by hidelines")
 
 (defcustom hide-lines-reverse-prefix nil
   "If non-nil then `hide-lines' will call `hide-lines-matching' by default, and `hide-lines-not-matching' with a single prefix.
