@@ -71,6 +71,12 @@
 ;;  `hide-lines-show-all'
 ;;    Show all areas hidden by the filter-buffer command.
 ;;    Keybinding: M-x hide-lines-show-all
+;;  `hide-blocks-not-matching'
+;;    Hide text that is not between lines matching START-TEXT and END-TEXT.
+;;    Keybinding: M-x hide-blocks-not-matching
+;;  `hide-blocks-matching'
+;;    Hide text that is between lines matching START-TEXT and END-TEXT.
+;;    Keybinding: M-x hide-blocks-matching
 ;;
 ;;; Customizable Options:
 ;;
@@ -158,10 +164,10 @@ Push the overlay onto the `hide-lines-invisible-areas' list"
 
 ;;;###autoload
 (defun hide-lines-not-matching (search-text)
-  "Hide lines that don't match the specified regexp."
+  "Hide lines that don't match the regexp SEARCH-TEXT."
   (interactive "MHide lines not matched by regexp: ")
   (set (make-local-variable 'line-move-ignore-invisible) t)
-  (save-excursion 
+  (save-excursion
     (goto-char (point-min))
     (let ((start-position (point-min))
           (pos (re-search-forward search-text nil t)))
@@ -177,7 +183,7 @@ Push the overlay onto the `hide-lines-invisible-areas' list"
 
 ;;;###autoload
 (defun hide-lines-matching  (search-text)
-  "Hide lines matching the specified regexp."
+  "Hide lines matching the regexp SEARCH-TEXT."
   (interactive "MHide lines matching regexp: ")
   (set (make-local-variable 'line-move-ignore-invisible) t)
   (save-excursion
@@ -193,6 +199,51 @@ Push the overlay onto the `hide-lines-invisible-areas' list"
         (if (eq (point) (point-max))
             (setq pos nil)
           (setq pos (re-search-forward search-text nil t)))))))
+
+;;;###autoload
+(defun hide-blocks-not-matching (start-text end-text)
+  "Hide text that is not between lines matching START-TEXT and END-TEXT."
+  (interactive (list (read-regexp "Regexp matching start lines of blocks: ")
+		     (read-regexp "Regexp matching end lines of blocks: ")))
+  (set (make-local-variable 'line-move-ignore-invisible) t)
+  (save-excursion
+    (goto-char (point-min))
+    (let ((start-position (point-min))
+          (pos (re-search-forward start-text nil t)))
+      (while pos
+        (beginning-of-line)
+        (hide-lines-add-overlay start-position (point))
+	(forward-line 1)
+	(if (re-search-forward end-text nil t)
+	    (beginning-of-line)
+	  (goto-char (point-max)))
+        (setq start-position (point))
+        (if (eq (point) (point-max))
+            (setq pos nil)
+          (setq pos (re-search-forward start-text nil t))))
+      (hide-lines-add-overlay start-position (point-max)))))
+
+;;;###autoload
+(defun hide-blocks-matching (start-text end-text)
+  "Hide text that is between lines matching START-TEXT and END-TEXT."
+  (interactive (list (read-regexp "Regexp matching start lines of blocks: ")
+		     (read-regexp "Regexp matching end lines of blocks: ")))
+  (set (make-local-variable 'line-move-ignore-invisible) t)
+  (save-excursion
+    (goto-char (point-min))
+    (let ((pos (re-search-forward start-text nil t))
+          start-position)
+      (while pos
+        (beginning-of-line)
+        (setq start-position (point))
+	(forward-line 1)
+	(if (re-search-forward end-text nil t)
+	    (beginning-of-line)
+	  (goto-char (point-max)))
+        (hide-lines-add-overlay start-position (point))
+        (if (eq (point) (point-max))
+            (setq pos nil)
+          (setq pos (re-search-forward start-text nil t)))))))
 
 ;;;###autoload
 (defun hide-lines-show-all ()

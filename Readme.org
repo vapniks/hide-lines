@@ -66,6 +66,13 @@ Add the following to your ~/.emacs startup file.
    - *hide-lines-show-all* :
     Show all areas hidden by the filter-buffer command.\\
     Keybinding: =M-x hide-lines-show-all=
+   - *hide-blocks-not-matching*
+    Hide text that is not between lines matching START-TEXT and END-TEXT.
+    Keybinding: =M-x hide-blocks-not-matching=
+   - *hide-blocks-matching*
+    Hide text that is between lines matching START-TEXT and END-TEXT.
+    Keybinding: =M-x hide-blocks-matching=
+
 
 * Customizable Options
 
