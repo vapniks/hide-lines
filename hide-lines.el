@@ -153,6 +153,20 @@ With any other prefix arg, reveal all hidden lines."
                       'hide-lines-matching)))
         (t (call-interactively 'hide-lines-show-all))))
 
+;;;###autoload
+(defun hide-blocks (&optional arg)
+  "Hide blocks of lines between matching regexps.
+With prefix arg of 4 (C-u) hide blocks that do not match the specified regexps.
+With any other prefix arg, reveal all hidden blocks."
+  (interactive "p")
+  (cond ((= arg 4) (call-interactively
+                    (if hide-lines-reverse-prefix 'hide-blocks-matching
+                      'hide-blocks-not-matching)))
+        ((= arg 1) (call-interactively
+                    (if hide-lines-reverse-prefix 'hide-blocks-not-matching
+                      'hide-blocks-matching)))
+        (t (call-interactively 'hide-lines-show-all))))
+
 (defun hide-lines-add-overlay (start end)
   "Add an overlay from `START' to `END' in the current buffer.
 Push the overlay onto the `hide-lines-invisible-areas' list"
