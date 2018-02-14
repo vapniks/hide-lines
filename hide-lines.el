@@ -167,14 +167,22 @@ With any other prefix arg, reveal all hidden blocks."
                       'hide-blocks-matching)))
         (t (call-interactively 'hide-lines-show-all))))
 
+(defun hide-lines-invisible-p (start end)
+  "Return non-nil if region between START and END is already hidden."
+  (remove nil (mapcar (lambda (ov)
+			(and (<= (overlay-start ov) start)
+			     (>= (overlay-end ov) end)))
+		      hide-lines-invisible-areas)))
+
 (defun hide-lines-add-overlay (start end)
   "Add an overlay from `START' to `END' in the current buffer.
 Push the overlay onto the `hide-lines-invisible-areas' list"
-  (let ((overlay (make-overlay start end)))
-    (setq hide-lines-invisible-areas (cons overlay hide-lines-invisible-areas))
-    (unless (member 'hl buffer-invisibility-spec)
-      (add-to-invisibility-spec 'hl))
-    (overlay-put overlay 'invisible 'hl)))
+  (unless (hide-lines-invisible-p start end)
+    (let ((overlay (make-overlay start end)))
+      (setq hide-lines-invisible-areas (cons overlay hide-lines-invisible-areas))
+      (unless (member 'hl buffer-invisibility-spec)
+	(add-to-invisibility-spec 'hl))
+      (overlay-put overlay 'invisible 'hl))))
 
 ;;;###autoload
 (defun hide-lines-not-matching (search-text)
