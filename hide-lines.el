@@ -269,9 +269,23 @@ Push the overlay onto the `hide-lines-invisible-areas' list"
 
 ;;;###autoload
 (defun hide-lines-show-all ()
-  "Show all areas hidden by the filter-buffer command."
+  "Unhide all hidden areas."
   (interactive)
   (mapc (lambda (overlay) (delete-overlay overlay)) 
+        hide-lines-invisible-areas)
+  (setq hide-lines-invisible-areas ())
+  (remove-from-invisibility-spec 'hl))
+
+(defun hide-lines-kill-hidden (&optional deletep)
+  "Kill all hidden areas.
+If called with prefix arg (or DELETEP is non-nil) dont save the
+text to the kill ring (this is faster, but you can't retrieve the hidden text)."
+  (interactive "P")
+  (mapc (lambda (overlay)
+	  (funcall (if deletep 'delete-region 'kill-region)
+		   (overlay-start overlay)
+		   (overlay-end overlay))
+	  (delete-overlay overlay))
         hide-lines-invisible-areas)
   (setq hide-lines-invisible-areas ())
   (remove-from-invisibility-spec 'hl))
