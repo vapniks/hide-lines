@@ -72,8 +72,9 @@ Add the following to your ~/.emacs startup file.
    - *hide-blocks-matching*
     Hide text that is between lines matching START-TEXT and END-TEXT.
     Keybinding: =M-x hide-blocks-matching=
-
-
+   - *hide-lines-kill-hidden*
+    Kill or delete all hidden areas.
+    Keybinding =M-x hide-lines-kill-hidden=
 * Customizable Options
 
  Below is a list of customizable options:
