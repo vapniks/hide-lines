@@ -179,7 +179,7 @@ With any other prefix arg, reveal all hidden blocks."
 Push the overlay onto the `hide-lines-invisible-areas' list"
   (unless (hide-lines-invisible-p start end)
     (let ((overlay (make-overlay start end)))
-      (setq hide-lines-invisible-areas (cons overlay hide-lines-invisible-areas))
+      (push overlay hide-lines-invisible-areas)
       (unless (member 'hl buffer-invisibility-spec)
 	(add-to-invisibility-spec 'hl))
       (overlay-put overlay 'invisible 'hl))))
