@@ -17,8 +17,8 @@
 The simplest way to make hide-lines work is to add the following
 lines to your .emacs file:
 
-(autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
-(global-set-key "\C-ch" 'hide-lines)
+=(autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
+(global-set-key "\C-ch" 'hide-lines)=
 
 Now, when you type C-c h, you will be prompted for a regexp
 (regular expression).  All lines matching this regexp will be
