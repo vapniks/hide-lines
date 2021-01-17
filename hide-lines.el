@@ -49,7 +49,7 @@
 ;;
 ;; Alternatively, you can type C-u C-c / (ie. provide a prefix
 ;; argument to the hide-lines command) to hide all lines that *do not*
-;; match the specified regexp. If you want to reveal previously hidden
+;; match the specified regexp.  If you want to reveal previously hidden
 ;; lines you can use any other prefix, e.g. C-u C-u C-c /
 ;;
 
@@ -106,7 +106,7 @@
 ;;
 ;; 24/03/2004 - Incorporate fix for infinite loop bug from David Hansen.
 ;; 2021/01/17 - PRouleau: set hide-lines group parent to convenience,
-;;              matching what packages states.
+;;              matching what packages states. Fixed checkdoc warnings.
 
 ;;; Acknowledgements:
 ;;
@@ -131,9 +131,14 @@
   "List of invisible overlays used by hidelines")
 
 (defcustom hide-lines-reverse-prefix nil
-  "If non-nil then `hide-lines' will call `hide-lines-matching' by default, and `hide-lines-not-matching' with a single prefix.
-Otherwise it's the other way round.
-In either case a prefix arg with any value apart from 1 or 4 will call `hide-lines-show-all'."
+  "Control what command `hide-lines' calls by default.
+
+- If non-nil then `hide-lines' will call `hide-lines-matching' by default,
+  and `hide-lines-not-matching' with a single prefix.
+- Otherwise it's the other way round.
+
+In either case a prefix arg with any value apart from 1 or 4 will
+call `hide-lines-show-all'."
   :type 'boolean
   :group 'hide-lines)
 
@@ -144,8 +149,8 @@ In either case a prefix arg with any value apart from 1 or 4 will call `hide-lin
 ;;;###autoload
 (defun hide-lines (&optional arg)
   "Hide lines matching the specified regexp.
-With prefix arg of 4 (C-u) hide lines that do not match the specified regexp.
-With any other prefix arg, reveal all hidden lines."
+With prefix ARG of 4 (\\[universal-argument]) hide lines that do not match the
+specified regexp.  With any other prefix arg, reveal all hidden lines."
   (interactive "p")
   (cond ((= arg 4) (call-interactively
                     (if hide-lines-reverse-prefix 'hide-lines-matching
@@ -158,8 +163,8 @@ With any other prefix arg, reveal all hidden lines."
 ;;;###autoload
 (defun hide-blocks (&optional arg)
   "Hide blocks of lines between matching regexps.
-With prefix arg of 4 (C-u) hide blocks that do not match the specified regexps.
-With any other prefix arg, reveal all hidden blocks."
+With prefix ARG of 4 (\\[universal-argument]) hide blocks that do not match the
+specified regexps.  With any other prefix arg, reveal all hidden blocks."
   (interactive "p")
   (cond ((= arg 4) (call-interactively
                     (if hide-lines-reverse-prefix 'hide-blocks-matching
