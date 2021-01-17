@@ -10,11 +10,11 @@
 ;; URL: https://github.com/vapniks/hide-lines
 ;; Keywords: convenience
 ;; Compatibility: GNU Emacs 24.3.1
-;; Package-Requires:  
+;; Package-Requires:
 ;;
 ;; Features that might be required by this library:
 ;;
-;; 
+;;
 ;;
 
 ;;; This file is NOT part of GNU Emacs
@@ -36,13 +36,13 @@
 ;; If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; 
+;;
 ;; The simplest way to make hide-lines work is to add the following
 ;; lines to your .emacs file:
-;; 
+;;
 ;; (autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
 ;; (global-set-key (kbd "C-c /") 'hide-lines)
-;; 
+;;
 ;; Now, when you type C-c /, you will be prompted for a regexp
 ;; (regular expression).  All lines matching this regexp will be
 ;; hidden in the buffer.
@@ -51,7 +51,7 @@
 ;; argument to the hide-lines command) to hide all lines that *do not*
 ;; match the specified regexp. If you want to reveal previously hidden
 ;; lines you can use any other prefix, e.g. C-u C-u C-c /
-;; 
+;;
 
 
 
@@ -91,7 +91,7 @@
 ;; Put hide-lines.el in a directory in your load-path, e.g. ~/.emacs.d/
 ;; You can add a directory to your load-path with the following line in ~/.emacs
 ;; (add-to-list 'load-path (expand-file-name "~/elisp"))
-;; where ~/elisp is the directory you want to add 
+;; where ~/elisp is the directory you want to add
 ;; (you don't need to do this for ~/.emacs.d - it's added by default).
 ;;
 ;; Add the following to your ~/.emacs startup file.
@@ -99,13 +99,14 @@
 ;; (require 'hide-lines)
 
 ;;; Change log:
-;;	
+;;
 ;; 2013/06/22 - Add namespace prefixes to functions and variables.
 ;;              Add licence and add to Marmalade repo.
 ;;              Alter hide-lines so that it can also show all lines
-;; 
+;;
 ;; 24/03/2004 - Incorporate fix for infinite loop bug from David Hansen.
-;; 
+;; 2021/01/17 - PRouleau: set hide-lines group parent to convenience,
+;;              matching what packages states.
 
 ;;; Acknowledgements:
 ;;
@@ -114,7 +115,7 @@
 
 ;;; TODO
 ;;
-;; 
+;;
 ;;
 
 ;;; Require
@@ -123,7 +124,8 @@
 ;;; Code:
 
 (defgroup hide-lines nil
-  "Commands for hiding lines based on a regexp.")
+  "Commands for hiding lines based on a regexp."
+  :group 'convenience)
 
 (defvar-local hide-lines-invisible-areas ()
   "List of invisible overlays used by hidelines")
@@ -271,7 +273,7 @@ Push the overlay onto the `hide-lines-invisible-areas' list"
 (defun hide-lines-show-all ()
   "Unhide all hidden areas."
   (interactive)
-  (mapc (lambda (overlay) (delete-overlay overlay)) 
+  (mapc (lambda (overlay) (delete-overlay overlay))
         hide-lines-invisible-areas)
   (setq hide-lines-invisible-areas ())
   (remove-from-invisibility-spec 'hl))
