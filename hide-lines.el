@@ -10,11 +10,11 @@
 ;; URL: https://github.com/vapniks/hide-lines
 ;; Keywords: convenience
 ;; Compatibility: GNU Emacs 24.3.1
-;; Package-Requires:  
+;; Package-Requires:
 ;;
 ;; Features that might be required by this library:
 ;;
-;; 
+;;
 ;;
 
 ;;; This file is NOT part of GNU Emacs
@@ -36,22 +36,22 @@
 ;; If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; 
+;;
 ;; The simplest way to make hide-lines work is to add the following
 ;; lines to your .emacs file:
-;; 
+;;
 ;; (autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
 ;; (global-set-key (kbd "C-c /") 'hide-lines)
-;; 
+;;
 ;; Now, when you type C-c /, you will be prompted for a regexp
 ;; (regular expression).  All lines matching this regexp will be
 ;; hidden in the buffer.
 ;;
 ;; Alternatively, you can type C-u C-c / (ie. provide a prefix
 ;; argument to the hide-lines command) to hide all lines that *do not*
-;; match the specified regexp. If you want to reveal previously hidden
+;; match the specified regexp.  If you want to reveal previously hidden
 ;; lines you can use any other prefix, e.g. C-u C-u C-c /
-;; 
+;;
 
 
 
@@ -91,7 +91,7 @@
 ;; Put hide-lines.el in a directory in your load-path, e.g. ~/.emacs.d/
 ;; You can add a directory to your load-path with the following line in ~/.emacs
 ;; (add-to-list 'load-path (expand-file-name "~/elisp"))
-;; where ~/elisp is the directory you want to add 
+;; where ~/elisp is the directory you want to add
 ;; (you don't need to do this for ~/.emacs.d - it's added by default).
 ;;
 ;; Add the following to your ~/.emacs startup file.
@@ -99,13 +99,14 @@
 ;; (require 'hide-lines)
 
 ;;; Change log:
-;;	
+;;
 ;; 2013/06/22 - Add namespace prefixes to functions and variables.
 ;;              Add licence and add to Marmalade repo.
 ;;              Alter hide-lines so that it can also show all lines
-;; 
+;;
 ;; 24/03/2004 - Incorporate fix for infinite loop bug from David Hansen.
-;; 
+;; 2021/01/17 - PRouleau: set hide-lines group parent to convenience,
+;;              matching what packages states. Fixed checkdoc warnings.
 
 ;;; Acknowledgements:
 ;;
@@ -114,7 +115,7 @@
 
 ;;; TODO
 ;;
-;; 
+;;
 ;;
 
 ;;; Require
@@ -123,15 +124,21 @@
 ;;; Code:
 
 (defgroup hide-lines nil
-  "Commands for hiding lines based on a regexp.")
+  "Commands for hiding lines based on a regexp."
+  :group 'convenience)
 
 (defvar-local hide-lines-invisible-areas ()
   "List of invisible overlays used by hidelines")
 
 (defcustom hide-lines-reverse-prefix nil
-  "If non-nil then `hide-lines' will call `hide-lines-matching' by default, and `hide-lines-not-matching' with a single prefix.
-Otherwise it's the other way round.
-In either case a prefix arg with any value apart from 1 or 4 will call `hide-lines-show-all'."
+  "Control what command `hide-lines' calls by default.
+
+- If non-nil then `hide-lines' will call `hide-lines-matching' by default,
+  and `hide-lines-not-matching' with a single prefix.
+- Otherwise it's the other way round.
+
+In either case a prefix arg with any value apart from 1 or 4 will
+call `hide-lines-show-all'."
   :type 'boolean
   :group 'hide-lines)
 
@@ -142,8 +149,8 @@ In either case a prefix arg with any value apart from 1 or 4 will call `hide-lin
 ;;;###autoload
 (defun hide-lines (&optional arg)
   "Hide lines matching the specified regexp.
-With prefix arg of 4 (C-u) hide lines that do not match the specified regexp.
-With any other prefix arg, reveal all hidden lines."
+With prefix ARG of 4 (\\[universal-argument]) hide lines that do not match the
+specified regexp.  With any other prefix arg, reveal all hidden lines."
   (interactive "p")
   (cond ((= arg 4) (call-interactively
                     (if hide-lines-reverse-prefix 'hide-lines-matching
@@ -156,8 +163,8 @@ With any other prefix arg, reveal all hidden lines."
 ;;;###autoload
 (defun hide-blocks (&optional arg)
   "Hide blocks of lines between matching regexps.
-With prefix arg of 4 (C-u) hide blocks that do not match the specified regexps.
-With any other prefix arg, reveal all hidden blocks."
+With prefix ARG of 4 (\\[universal-argument]) hide blocks that do not match the
+specified regexps.  With any other prefix arg, reveal all hidden blocks."
   (interactive "p")
   (cond ((= arg 4) (call-interactively
                     (if hide-lines-reverse-prefix 'hide-blocks-matching
@@ -271,7 +278,7 @@ Push the overlay onto the `hide-lines-invisible-areas' list"
 (defun hide-lines-show-all ()
   "Unhide all hidden areas."
   (interactive)
-  (mapc (lambda (overlay) (delete-overlay overlay)) 
+  (mapc (lambda (overlay) (delete-overlay overlay))
         hide-lines-invisible-areas)
   (setq hide-lines-invisible-areas ())
   (remove-from-invisibility-spec 'hl))
