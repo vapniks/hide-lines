@@ -187,7 +187,8 @@ Push the overlay onto the `hide-lines-invisible-areas' list"
   (unless (hide-lines-invisible-p start end)
     (let ((overlay (make-overlay start end)))
       (push overlay hide-lines-invisible-areas)
-      (unless (member 'hl buffer-invisibility-spec)
+      (when (or (eq buffer-invisibility-spec t)
+                (not (member 'hl buffer-invisibility-spec)))
 	(add-to-invisibility-spec 'hl))
       (overlay-put overlay 'invisible 'hl))))
 
